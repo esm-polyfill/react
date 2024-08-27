@@ -1,8 +1,8 @@
 {
   "name": "@esm-polyfill/react",
-  "description": "React in ESM format",
+  "description": "React in CJS ESM with DTS ready to use",
   "keywords": [
-    "react", "esm"
+    "react", "esm", "dts", "typescript"
   ],
   "version": "18.3.1",
   "repository": {
@@ -11,7 +11,6 @@
   },
   "license": "MIT",
   "files": [
-    "LICENSE",
     "react-18.3.1/",
     "package.json",
     "README"
@@ -21,30 +20,30 @@
       "types": "./react-18.3.1/index.d.ts",
       "react-server": {
         "development": {
-          "import": "./react-18.3.1/development/react.shared-subset.js",
-          "require": "./react-18.3.1/cjs/react.shared-subset.development.js"
+          "import": "./react-18.3.1/esm-development/react.shared-subset.js",
+          "require": "./react-18.3.1/cjs-development/react.shared-subset.js"
         },
         "production": {
-          "import": "./react-18.3.1/production/react.shared-subset.js",
-          "require": "./react-18.3.1/cjs/react.shared-subset.production.min.js"
+          "import": "./react-18.3.1/esm-production/react.shared-subset.js",
+          "require": "./react-18.3.1/cjs-production/react.shared-subset.js"
         },
         "default": {
-          "import": "./react-18.3.1/production/react.shared-subset.js",
-          "require": "./react-18.3.1/cjs/react.shared-subset.production.min.js"
+          "import": "./react-18.3.1/esm-production/react.shared-subset.js",
+          "require": "./react-18.3.1/cjs-production/react.shared-subset.js"
         }
       },
       "default": {
         "development": {
-          "import": "./react-18.3.1/development/index.js",
-          "require": "./react-18.3.1/cjs/react.development.js"
+          "import": "./react-18.3.1/esm-development/index.js",
+          "require": "./react-18.3.1/cjs-development/index.js"
         },
         "production": {
-          "import": "./react-18.3.1/production/index.js",
-          "require": "./react-18.3.1/cjs/react.production.min.js"
+          "import": "./react-18.3.1/esm-production/index.js",
+          "require": "./react-18.3.1/cjs-production/index.js"
         },
         "default": {
-          "import": "./react-18.3.1/production/index.js",
-          "require": "./react-18.3.1/cjs/react.production.min.js"
+          "import": "./react-18.3.1/esm-production/index.js",
+          "require": "./react-18.3.1/cjs-production/index.js"
         }
       }
     },
@@ -52,32 +51,38 @@
     "./jsx-runtime": {
       "types": "./react-18.3.1/jsx-runtime.d.ts",
       "development": {
-        "import": "./react-18.3.1/development/jsx-runtime.js",
-        "require": "./react-18.3.1/cjs/react-jsx-runtime.development.js"
+        "import": "./react-18.3.1/esm-development/jsx-runtime.js",
+        "require": "./react-18.3.1/cjs-development/jsx-runtime.js"
       },
       "production": {
-        "import": "./react-18.3.1/production/jsx-runtime.js",
-        "require": "./react-18.3.1/cjs/react-jsx-runtime.production.min.js"
+        "import": "./react-18.3.1/esm-production/jsx-runtime.js",
+        "require": "./react-18.3.1/cjs-production/jsx-runtime.js"
       },
       "default": {
-        "import": "./react-18.3.1/production/jsx-runtime.js",
-        "require": "./react-18.3.1/cjs/react-jsx-runtime.production.min.js"
+        "import": "./react-18.3.1/esm-production/jsx-runtime.js",
+        "require": "./react-18.3.1/cjs-production/jsx-runtime.js"
       }
     },
     "./jsx-dev-runtime": {
       "types": "./react-18.3.1/jsx-dev-runtime.d.ts",
       "development": {
-        "import": "./react-18.3.1/development/jsx-dev-runtime.js",
-        "require": "./react-18.3.1/cjs/react-jsx-dev-runtime.development.js"
+        "import": "./react-18.3.1/esm-development/jsx-dev-runtime.js",
+        "require": "./react-18.3.1/cjs-development/jsx-dev-runtime.js"
       },
       "production": {
-        "import": "./react-18.3.1/production/jsx-dev-runtime.js",
-        "require": "./react-18.3.1/cjs/react-jsx-dev-runtime.production.min.js"
+        "import": "./react-18.3.1/esm-production/jsx-dev-runtime.js",
+        "require": "./react-18.3.1/cjs-production/jsx-dev-runtime.js"
       },
       "default": {
-        "import": "./react-18.3.1/production/jsx-dev-runtime.js",
-        "require": "./react-18.3.1/cjs/react-jsx-dev-runtime.production.min.js"
+        "import": "./react-18.3.1/esm-production/jsx-dev-runtime.js",
+        "require": "./react-18.3.1/cjs-production/jsx-dev-runtime.js"
       }
+    },
+    "./canary": {
+      "types": "./react-18.3.1/canary.d.ts"
+    },
+    "./experimental": {
+      "types": "./react-18.3.1/experimental.d.ts"
     }
   },
   "engines": {

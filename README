@@ -43,11 +43,11 @@ cp node_modules/react-18.3.1/package.json package-18.3.1.json
 cp node_modules/react-18.3.1/package.json react-18.3.1
 cp node_modules/react-18.3.1/README.md react-18.3.1
 cp node_modules/react-18.3.1/LICENSE react-18.3.1
-cp -r node_modules/react-18.3.1/cjs react-18.3.1/cjs
+
 
 
 npx esbuild node_modules/react-18.3.1/*.js \
-    --outdir=react-18.3.1/development \
+    --outdir=react-18.3.1/esm-development \
     --bundle \
     --charset=utf8 \
     --platform=node \
@@ -58,11 +58,34 @@ npx esbuild node_modules/react-18.3.1/*.js \
     --alias:react=@esm-polyfill/react
 
 npx esbuild node_modules/react-18.3.1/*.js \
-    --outdir=react-18.3.1/production \
+    --outdir=react-18.3.1/esm-production \
     --bundle \
     --charset=utf8 \
     --platform=node \
     --format=esm \
+    --packages=external \
+    --analyze \
+    --define:process.env.NODE_ENV=\"production\" \
+    --alias:react=@esm-polyfill/react
+
+
+npx esbuild node_modules/react-18.3.1/*.js \
+    --outdir=react-18.3.1/cjs-development \
+    --bundle \
+    --charset=utf8 \
+    --platform=node \
+    --format=cjs \
+    --packages=external \
+    --analyze \
+    --define:process.env.NODE_ENV=\"development\" \
+    --alias:react=@esm-polyfill/react
+
+npx esbuild node_modules/react-18.3.1/*.js \
+    --outdir=react-18.3.1/cjs-production \
+    --bundle \
+    --charset=utf8 \
+    --platform=node \
+    --format=cjs \
     --packages=external \
     --analyze \
     --define:process.env.NODE_ENV=\"production\" \
