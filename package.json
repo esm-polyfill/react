@@ -1,0 +1,95 @@
+{
+  "name": "@esm-polyfill/react",
+  "description": "React in ESM format",
+  "keywords": [
+    "react", "esm"
+  ],
+  "version": "18.3.1",
+  "repository": {
+    "type": "git",
+    "url": "git+file:///home/mk/github/esm-polyfill/react"
+  },
+  "license": "MIT",
+  "files": [
+    "LICENSE",
+    "react-18.3.1/",
+    "package.json",
+    "README"
+  ],
+  "exports": {
+    ".": {
+      "types": "./react-18.3.1/index.d.ts",
+      "react-server": {
+        "development": {
+          "import": "./react-18.3.1/development/react.shared-subset.js",
+          "require": "./react-18.3.1/cjs/react.shared-subset.development.js"
+        },
+        "production": {
+          "import": "./react-18.3.1/production/react.shared-subset.js",
+          "require": "./react-18.3.1/cjs/react.shared-subset.production.min.js"
+        },
+        "default": {
+          "import": "./react-18.3.1/production/react.shared-subset.js",
+          "require": "./react-18.3.1/cjs/react.shared-subset.production.min.js"
+        }
+      },
+      "default": {
+        "development": {
+          "import": "./react-18.3.1/development/index.js",
+          "require": "./react-18.3.1/cjs/react.development.js"
+        },
+        "production": {
+          "import": "./react-18.3.1/production/index.js",
+          "require": "./react-18.3.1/cjs/react.production.min.js"
+        },
+        "default": {
+          "import": "./react-18.3.1/production/index.js",
+          "require": "./react-18.3.1/cjs/react.production.min.js"
+        }
+      }
+    },
+    "./package.json": "./package.json",
+    "./jsx-runtime": {
+      "types": "./react-18.3.1/jsx-runtime.d.ts",
+      "development": {
+        "import": "./react-18.3.1/development/jsx-runtime.js",
+        "require": "./react-18.3.1/cjs/react-jsx-runtime.development.js"
+      },
+      "production": {
+        "import": "./react-18.3.1/production/jsx-runtime.js",
+        "require": "./react-18.3.1/cjs/react-jsx-runtime.production.min.js"
+      },
+      "default": {
+        "import": "./react-18.3.1/production/jsx-runtime.js",
+        "require": "./react-18.3.1/cjs/react-jsx-runtime.production.min.js"
+      }
+    },
+    "./jsx-dev-runtime": {
+      "types": "./react-18.3.1/jsx-dev-runtime.d.ts",
+      "development": {
+        "import": "./react-18.3.1/development/jsx-dev-runtime.js",
+        "require": "./react-18.3.1/cjs/react-jsx-dev-runtime.development.js"
+      },
+      "production": {
+        "import": "./react-18.3.1/production/jsx-dev-runtime.js",
+        "require": "./react-18.3.1/cjs/react-jsx-dev-runtime.production.min.js"
+      },
+      "default": {
+        "import": "./react-18.3.1/production/jsx-dev-runtime.js",
+        "require": "./react-18.3.1/cjs/react-jsx-dev-runtime.production.min.js"
+      }
+    }
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "@types/prop-types": "*",
+    "csstype": "^3.0.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.23.1",
+    "react-18.3.1": "npm:react@^18.3.1",
+    "react-types-18.3.1": "npm:@types/react@^18.3.1"
+  }
+}
