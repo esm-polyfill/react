@@ -7,9 +7,9 @@ React in ESM format.
 Install:
 
 ```sh
-npm i react@git+file:///home/mk/github/esm-polyfill/react
+npm i react@esm-polyfill/react
 # specific version
-npm i react@git+file:///home/mk/github/esm-polyfill/react#semver:^18.3.1
+npm i react@esm-polyfill/react#semver:^18.3.1
 ```
 
 ## Use 

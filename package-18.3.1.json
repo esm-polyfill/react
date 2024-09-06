@@ -7,13 +7,13 @@
   "version": "18.3.1",
   "repository": {
     "type": "git",
-    "url": "git+file:///home/mk/github/esm-polyfill/react"
+    "url": "https//github.com/esm-polyfill/react"
   },
   "license": "MIT",
   "files": [
     "react-18.3.1/",
     "package.json",
-    "README"
+    "README.md"
   ],
   "exports": {
     ".": {
