@@ -1,6 +1,7 @@
 # @esm-polyfill/react@18.3.1
 
-React in ESM format.
+[react](https://www.npmjs.com/package/react) in ESM format.
+
 
 ## Install
 
@@ -17,117 +18,149 @@ npm i react@esm-polyfill/react#semver:^18.3.1
 Reference:
 
 ```ts
-import React from 'react'
+import react from 'react'
+import * as R from 'react'
 
 // ...
 
 ```
 
-## Internals info
+## How this package was created?
 
-### Main ESM transformation procedure
+
+
+Dependencies for version 18.3.1 in `package.json` was added in
+following manner:
+
+```json
+{
+  "devDependencies": {
+    "...": "...",
+
+    "react-18.3.1": "npm:react@18.3.1",
+    "@types/react-18.3.1": "npm:@types/react@18.3"
+  }
+}
+```
+
+
+Then orginal `package.json`'s, LICENSE's,.. etc. source files 
+were copied to target directory:
+
 
 ```sh
-npm i --save-dev react-18.3.1@npm:react@18.3.1
-npm i --save-dev react-types-18.3.1@npm:@types/react@18.3.1
+
+mkdir -p react-18.3.1
+
+# copy .d.ts
+cd node_modules/@types/react-18.3.1
+cp -n --parents *.d.ts ../../../react-18.3.1
+cd ../../../
+
+# copy types license, package.json and readme
+cp -n node_modules/@types/react-18.3.1/package.json react-18.3.1/package-types.json
+cp -n node_modules/@types/react-18.3.1/README.md    react-18.3.1/README-types.md
+cp -n node_modules/@types/react-18.3.1/LICENSE      react-18.3.1/LICENSE-types
+
+# copy js license, package.json and readme
+cp -n node_modules/react-18.3.1/package.json react-18.3.1/package-js.json
+cp -n node_modules/react-18.3.1/README.md    react-18.3.1/README-js.md
+cp -n node_modules/react-18.3.1/LICENSE      react-18.3.1/LICENSE-js
 
 
-mkdir react-18.3.1
-cd node_modules/react-types-18.3.1
-cp --parents *.d.ts **/*.d.ts ../../react-18.3.1
-cd ../../
-cp node_modules/react-types-18.3.1/package.json react-18.3.1/package-types.json
 
-
-cp node_modules/react-18.3.1/package.json package-18.3.1.json
-cp node_modules/react-18.3.1/package.json react-18.3.1
-cp node_modules/react-18.3.1/README.md react-18.3.1
-cp node_modules/react-18.3.1/LICENSE react-18.3.1
-
-
-
-npx esbuild node_modules/react-18.3.1/*.js \
-    --outdir=react-18.3.1/esm-development \
-    --bundle \
-    --charset=utf8 \
-    --platform=node \
-    --format=esm \
-    --packages=external \
-    --analyze \
-    --define:process.env.NODE_ENV=\"development\" \
-    --alias:react=@esm-polyfill/react
-
-npx esbuild node_modules/react-18.3.1/*.js \
-    --outdir=react-18.3.1/esm-production \
-    --bundle \
-    --charset=utf8 \
-    --platform=node \
-    --format=esm \
-    --packages=external \
-    --analyze \
-    --define:process.env.NODE_ENV=\"production\" \
-    --alias:react=@esm-polyfill/react
-
-
-npx esbuild node_modules/react-18.3.1/*.js \
-    --outdir=react-18.3.1/cjs-development \
-    --bundle \
-    --charset=utf8 \
-    --platform=node \
-    --format=cjs \
-    --packages=external \
-    --analyze \
-    --define:process.env.NODE_ENV=\"development\" \
-    --alias:react=@esm-polyfill/react
-
-npx esbuild node_modules/react-18.3.1/*.js \
-    --outdir=react-18.3.1/cjs-production \
-    --bundle \
-    --charset=utf8 \
-    --platform=node \
-    --format=cjs \
-    --packages=external \
-    --analyze \
-    --define:process.env.NODE_ENV=\"production\" \
-    --alias:react=@esm-polyfill/react
 ```
 
+Then core cjs files are transformed by rollup
+(see [rollup config file](./rollup.config-18.3.1.mjs)):
 
 
+```sh
 
-### Changes to package.json dependencies
+# transform cjs modules to mjs and save them to react-18.3.1/esm
+# (but only those without conditional requires which will be 
+# transformed manually)
+npx rollup -c rollup.config-18.3.1.mjs
 
+```
 
-#### js oryginal dependencies
+Top level files were manually converted:
+
+```sh
+
+# copy modules which will be transformed manually
+# (top level modules with conditional require's)
+mkdir -p react-18.3.1/production
+cp -n node_modules/react-18.3.1/*.js react-18.3.1/production
+mkdir -p react-18.3.1/development
+cp -n node_modules/react-18.3.1/*.js react-18.3.1/development
+
+# unfortunately esm/react.development.js and esm/react.production.min.js
+# must be manually edited to export namespace.
+mkdir -p react-18.3.1/esm-overrides
+cp -n react-18.3.1/esm/react.*.js react-18.3.1/esm-overrides
+
+```
+
+in every file abowe change:
+
+```js
+
+// from:
+module.exports = require('./cjs/...')
+// to:
+export * from '../esm/...'
+export { default } from '../esm/...'
+
+// and from:
+const react = require('@esm-polyfill/react')
+// to:
+import * as S from '@esm-polyfill/react'
+
+```
+
+`package.json` was edited to point to new `exports`, `dependencies`
+and `devDependencies`.
 
 ```json
 {
-    "loose-envify": "^1.1.0"
+  "name": "@esm-polyfill/react",
+  "description": "react in CJS ESM with DTS ready to use",
+  "keywords": [
+    "react", "esm"
+  ],
+  "version": "18.3.1",
+  "repository": {
+    "type": "git",
+    "url": "https//github.com/esm-polyfill/react"
+  },
+  "license": "MIT",
+  "files": [
+    "react-18.3.1",
+    "package.json",
+    "README.md"
+  ],
+  "exports": "... nice scoped exports ...",
+  "...": "..."
 }
 ```
 
-#### dts oryginal dependencies
-
-```json
-{
-    "@types/prop-types": "*",
-    "csstype": "^3.0.2"
-}
-```
-
-#### esm'ed dependencies
-
-```json
-{
-    "@types/prop-types": "*",
-    "csstype": "^3.0.2"
-}
-```
-
-Why:
+Why we ended with such dependencies? Because:
 
 * `loose-envify` was used for `production` or `development` 
   contexts, but those was incorporated into package `exports`,
   so is not neccessary.
 * `@types/prop-types` does not have .js so is left as is
 * `csstype` does not have .js so is left as is
+
+
+
+## Bugfixes
+
+When fixing bug in polyfill, bugfixed commit must point 
+to the same tag (unfortunately :( ), to do this:
+
+```sh
+git tag v18.3.1 -f
+git push -f --tags
+```
